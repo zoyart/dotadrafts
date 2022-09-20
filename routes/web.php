@@ -8,5 +8,3 @@ Route::get('/', [AnalyticsController::class, 'index'])->name('index');
 Route::get('/analytics', [AnalyticsController::class, 'analytics'])->name('analytics');
 
 Route::get('/parse-matchups', [ParseController::class, 'matchups'])->name('parse.matchups');
-
-
