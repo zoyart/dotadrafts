@@ -21,12 +21,14 @@ class AnalyticsController extends Controller
         $radiant = $request->radiant;
         $heroPointsCounter = 0;
         $heroWeakCounter = 0;
+        $heroPowerCounter = 0;
 
         // Подсчет слабости у команды тьмы
         $direWeak = 0;
         $direCounterPick = array();
         $direHeroesPoints = array();
         $direHeroesWeak = array();
+        $direHeroesPower = array();
 
         foreach ($dire as $direHero) {
             foreach ($radiant as $radiantHero) {
@@ -34,6 +36,9 @@ class AnalyticsController extends Controller
                 $direWeak -= $matchup['percent'];
                 $heroPointsCounter -= $matchup['percent'];
 
+                if ($matchup['percent'] < 0) {
+                    $heroPowerCounter -= $matchup['percent'];
+                }
                 if ($matchup['percent'] > 0) {
                     $heroWeakCounter += $matchup['percent'];
                 }
@@ -41,8 +46,13 @@ class AnalyticsController extends Controller
                     $direCounterPick[$direHero] =  "{$radiantHero} ({$matchup['percent']})";
                 }
             }
+
             $direHeroesPoints[$direHero] = $heroPointsCounter; // Добавление общих очков герою
             $direHeroesWeak[$direHero] = $heroWeakCounter;
+            $direHeroesPower[$direHero] = $heroPowerCounter;
+
+            // Обновление счётчиков
+            $heroPowerCounter = 0;
             $heroPointsCounter = 0;
             $heroWeakCounter = 0;
         }
@@ -52,6 +62,7 @@ class AnalyticsController extends Controller
         $radiantCounterPick = array();
         $radiantHeroesPoints = array();
         $radiantHeroesWeak = array();
+        $radiantHeroesPower = array();
 
         foreach ($radiant as $radiantHero) {
             foreach ($dire as $direHero) {
@@ -59,6 +70,9 @@ class AnalyticsController extends Controller
                 $radiantWeak -= $matchup['percent'];
                 $heroPointsCounter -= $matchup['percent'];
 
+                if ($matchup['percent'] < 0) {
+                    $heroPowerCounter -= $matchup['percent'];
+                }
                 if ($matchup['percent'] > 0) {
                     $heroWeakCounter += $matchup['percent'];
                 }
@@ -66,10 +80,15 @@ class AnalyticsController extends Controller
                     $radiantCounterPick[$radiantHero] = "{$direHero} ({$matchup['percent']})";;
                 }
             }
+
             $radiantHeroesPoints[$radiantHero] = $heroPointsCounter;
             $radiantHeroesWeak[$radiantHero] = $heroWeakCounter;
+            $radiantHeroesPower[$radiantHero] = $heroPowerCounter;
+
+            // Обновление счётчиков
             $heroPointsCounter = 0;
             $heroWeakCounter = 0;
+            $heroPowerCounter = 0;
         }
 
         return view('analytics.statistics', [
@@ -78,11 +97,14 @@ class AnalyticsController extends Controller
             'direCounterPick' => $direCounterPick,
             'direHeroesWeak' => $direHeroesWeak,
             'direHeroesPoints' => $direHeroesPoints,
+            'direHeroesPower' => $direHeroesPower,
+
             'radiant' => $radiant,
             'radiantWeak' => $radiantWeak,
             'radiantCounterPick' => $radiantCounterPick,
             'radiantHeroesWeak' => $radiantHeroesWeak,
             'radiantHeroesPoints' => $radiantHeroesPoints,
+            'radiantHeroesPower' => $radiantHeroesPower,
         ]);
     }
 }

@@ -21,11 +21,11 @@
                                 <div>
                                     <div class="ms-3">
                                         @if($direHeroesPoints[$direHero] < 0)
-                                            Hero points: <span class="text-danger">{{ $direHeroesPoints[$direHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-danger">{{ $direHeroesPoints[$direHero] }}</span>
                                         @elseif($direHeroesPoints[$direHero] > 0 and $direHeroesPoints[$direHero] < 2)
-                                            Hero points: <span class="text-warning">{{ $direHeroesPoints[$direHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-warning">{{ $direHeroesPoints[$direHero] }}</span>
                                         @else
-                                            Hero points: <span class="text-success">{{ $direHeroesPoints[$direHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-success">{{ $direHeroesPoints[$direHero] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
@@ -37,14 +37,21 @@
                                             Hero weak: <span class="text-danger">{{ $direHeroesWeak[$direHero] }}</span>
                                         @endif
                                     </div>
+                                    <div class="ms-3">
+                                        @if($direHeroesPower[$direHero] < 1)
+                                            Hero power: <span class="text-danger">{{ $direHeroesPower[$direHero] }}</span>
+                                        @elseif($direHeroesPower[$direHero] > 1 and $direHeroesPower[$direHero] < 5)
+                                            Hero power: <span class="text-warning">{{ $direHeroesPower[$direHero] }}</span>
+                                        @else
+                                            Hero power: <span class="text-success">{{ $direHeroesPower[$direHero] }}</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             @if(isset($direCounterPick[$direHero]))
                                 <div class="">{{ ucfirst($direCounterPick[$direHero]) }} неплох
                                     против {{ $direHero }}
                                 </div>
-                            @else
-                                <div class="">У {{ $direHero }} нет прямых контрпиков</div>
                             @endif
                         </div>
                     @endforeach
@@ -67,11 +74,11 @@
                                 <div>
                                     <div class="ms-3">
                                         @if($radiantHeroesPoints[$radiantHero] < 0)
-                                            Hero points: <span class="text-danger">{{ $radiantHeroesPoints[$radiantHero]}}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-danger">{{ $radiantHeroesPoints[$radiantHero]}}</span>
                                         @elseif($radiantHeroesPoints[$radiantHero] > 0 and $radiantHeroesPoints[$radiantHero] < 2)
-                                            Hero points: <span class="text-warning">{{ $radiantHeroesPoints[$radiantHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-warning">{{ $radiantHeroesPoints[$radiantHero] }}</span>
                                         @else
-                                            Hero points: <span class="text-success">{{ $radiantHeroesPoints[$radiantHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span class="text-success">{{ $radiantHeroesPoints[$radiantHero] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
@@ -83,14 +90,21 @@
                                             Hero weak: <span class="text-danger">{{ $radiantHeroesWeak[$radiantHero] }}</span>
                                         @endif
                                     </div>
+                                    <div class="ms-3">
+                                        @if($radiantHeroesPower[$radiantHero] < 1)
+                                            Hero power: <span class="text-danger">{{ $radiantHeroesPower[$radiantHero] }}</span>
+                                        @elseif($radiantHeroesPower[$radiantHero] > 1 and $radiantHeroesPower[$radiantHero] < 5)
+                                            Hero power: <span class="text-warning">{{ $radiantHeroesPower[$radiantHero] }}</span>
+                                        @else
+                                            Hero power: <span class="text-success">{{ $radiantHeroesPower[$radiantHero] }}</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             @if(isset($radiantCounterPick[$radiantHero]))
                                 <div class="">{{ ucfirst($radiantCounterPick[$radiantHero]) }} неплох
                                     против {{ $radiantHero }}
                                 </div>
-                            @else
-                                <div class="">У {{ $radiantHero }} нет прямых контрпиков</div>
                             @endif
                         </div>
                     @endforeach
