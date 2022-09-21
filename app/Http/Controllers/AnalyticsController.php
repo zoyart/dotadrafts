@@ -36,18 +36,13 @@ class AnalyticsController extends Controller
                 $direWeak -= $matchup['percent'];
                 $heroPointsCounter -= $matchup['percent'];
 
-                if ($matchup['percent'] < 0) {
-                    $heroPowerCounter -= $matchup['percent'];
-                }
-                if ($matchup['percent'] > 0) {
-                    $heroWeakCounter += $matchup['percent'];
-                }
-                if ($matchup['percent'] > 1.5) {
-                    $direCounterPick[$direHero] =  "{$radiantHero} ({$matchup['percent']})";
-                }
+                if ($matchup['percent'] < 0) $heroPowerCounter -= $matchup['percent'];
+                if ($matchup['percent'] > 0) $heroWeakCounter += $matchup['percent'];
+                if ($matchup['percent'] > 1.5) $direCounterPick[$direHero] =  "{$radiantHero} ({$matchup['percent']})";
             }
 
-            $direHeroesPoints[$direHero] = $heroPointsCounter; // Добавление общих очков герою
+            // Запись информации о текущем герое в словари
+            $direHeroesPoints[$direHero] = $heroPointsCounter;
             $direHeroesWeak[$direHero] = $heroWeakCounter;
             $direHeroesPower[$direHero] = $heroPowerCounter;
 
@@ -70,17 +65,12 @@ class AnalyticsController extends Controller
                 $radiantWeak -= $matchup['percent'];
                 $heroPointsCounter -= $matchup['percent'];
 
-                if ($matchup['percent'] < 0) {
-                    $heroPowerCounter -= $matchup['percent'];
-                }
-                if ($matchup['percent'] > 0) {
-                    $heroWeakCounter += $matchup['percent'];
-                }
-                if ($matchup['percent'] > 1.5) {
-                    $radiantCounterPick[$radiantHero] = "{$direHero} ({$matchup['percent']})";;
-                }
+                if ($matchup['percent'] < 0) $heroPowerCounter -= $matchup['percent'];
+                if ($matchup['percent'] > 0) $heroWeakCounter += $matchup['percent'];
+                if ($matchup['percent'] > 1.5) $radiantCounterPick[$radiantHero] = "{$direHero} ({$matchup['percent']})";
             }
 
+            // Запись информации о текущем герое в словари
             $radiantHeroesPoints[$radiantHero] = $heroPointsCounter;
             $radiantHeroesWeak[$radiantHero] = $heroWeakCounter;
             $radiantHeroesPower[$radiantHero] = $heroPowerCounter;
@@ -90,7 +80,7 @@ class AnalyticsController extends Controller
             $heroWeakCounter = 0;
             $heroPowerCounter = 0;
         }
-
+//        dd($radiantCounterPick);
         return view('analytics.statistics', [
             'dire' => $dire,
             'direWeak' => $direWeak,
