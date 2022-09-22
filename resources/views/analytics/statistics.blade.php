@@ -14,44 +14,55 @@
                     <span class="text-danger"> *</span>
                 </div>
                 <div class="dire-hero mt-3">
-                    @foreach($dire as $direHero)
+                    @foreach($direHeroes as $direHero)
                         <div class="mb-4">
                             <div class="d-flex">
                                 <img src="/images/heroes/{{ $direHero }}.jpg" alt="">
                                 <div>
                                     <div class="ms-3">
-                                        @if($direHeroesPoints[$direHero] < 0)
-                                            <span class="fw-bold">Hero points: </span><span class="text-danger">{{ $direHeroesPoints[$direHero] }}</span>
-                                        @elseif($direHeroesPoints[$direHero] > 0 and $direHeroesPoints[$direHero] < 2)
-                                            <span class="fw-bold">Hero points: </span><span class="text-warning">{{ $direHeroesPoints[$direHero] }}</span>
+                                        @if($direData[$direHero]['heroPoints'] < 0)
+                                            <span class="fw-bold">Hero points: </span>
+                                            <span class="text-danger">{{ $direData[$direHero]['heroPoints']  }}</span>
+                                        @elseif($direData[$direHero]['heroPoints'] > 0 and $direData[$direHero] < 2)
+                                            <span class="fw-bold">Hero points: </span>
+                                            <span class="text-warning">{{ $direData[$direHero]['heroPoints'] }}</span>
                                         @else
-                                            <span class="fw-bold">Hero points: </span><span class="text-success">{{ $direHeroesPoints[$direHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span>
+                                            <span class="text-success">{{ $direData[$direHero]['heroPoints'] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
-                                        @if($direHeroesWeak[$direHero] < 1)
-                                            Hero weak: <span class="text-success">{{ $direHeroesWeak[$direHero] }}</span>
-                                        @elseif($direHeroesWeak[$direHero] > 1 and $direHeroesWeak[$direHero] < 5)
-                                            Hero weak: <span class="text-warning">{{ $direHeroesWeak[$direHero] }}</span>
+                                        @if($direData[$direHero]['heroWeak'] < 1)
+                                            Hero weak: <span
+                                                class="text-success">{{ $direData[$direHero]['heroWeak'] }}</span>
+                                        @elseif($direData[$direHero]['heroWeak'] > 1 and $direData[$direHero]['heroWeak'] < 5)
+                                            Hero weak: <span
+                                                class="text-warning">{{ $direData[$direHero]['heroWeak'] }}</span>
                                         @else
-                                            Hero weak: <span class="text-danger">{{ $direHeroesWeak[$direHero] }}</span>
+                                            Hero weak: <span
+                                                class="text-danger">{{ $direData[$direHero]['heroWeak'] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
-                                        @if($direHeroesPower[$direHero] < 1)
-                                            Hero power: <span class="text-danger">{{ $direHeroesPower[$direHero] }}</span>
-                                        @elseif($direHeroesPower[$direHero] > 1 and $direHeroesPower[$direHero] < 5)
-                                            Hero power: <span class="text-warning">{{ $direHeroesPower[$direHero] }}</span>
+                                        @if($direData[$direHero]['heroPower'] < 1)
+                                            Hero power: <span
+                                                class="text-danger">{{ $direData[$direHero]['heroPower'] }}</span>
+                                        @elseif($direData[$direHero]['heroPower'] > 1 and $direData[$direHero]['heroPower'] < 5)
+                                            Hero power: <span
+                                                class="text-warning">{{ $direData[$direHero]['heroPower'] }}</span>
                                         @else
-                                            Hero power: <span class="text-success">{{ $direHeroesPower[$direHero] }}</span>
+                                            Hero power: <span
+                                                class="text-success">{{ $direData[$direHero]['heroPower'] }}</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            @if(isset($direCounterPick[$direHero]))
-                                <div class="">{{ ucfirst($direCounterPick[$direHero]) }} неплох
-                                    против {{ $direHero }}
-                                </div>
+                            @if(isset($direData[$direHero]['counterPicks'] ))
+                                @foreach($direData[$direHero]['counterPicks'] as $counterPick)
+                                    <div class="">{{ ucfirst($counterPick) }} неплох
+                                        против {{ $direHero }}
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
                     @endforeach
@@ -61,50 +72,62 @@
                 </div>
             </div>
 
+
             <div class="col">
                 <div class="title fs-2 fw-bold text-dark">
                     RADIANT
                     <span class="text-success"> *</span>
                 </div>
                 <div class="radiant-hero mt-3">
-                    @foreach($radiant as $radiantHero)
+                    @foreach($radiantHeroes as $radiantHero)
                         <div class="mb-4">
                             <div class="d-flex">
                                 <img src="/images/heroes/{{ $radiantHero }}.jpg" alt="">
                                 <div>
                                     <div class="ms-3">
-                                        @if($radiantHeroesPoints[$radiantHero] < 0)
-                                            <span class="fw-bold">Hero points: </span><span class="text-danger">{{ $radiantHeroesPoints[$radiantHero]}}</span>
-                                        @elseif($radiantHeroesPoints[$radiantHero] > 0 and $radiantHeroesPoints[$radiantHero] < 2)
-                                            <span class="fw-bold">Hero points: </span><span class="text-warning">{{ $radiantHeroesPoints[$radiantHero] }}</span>
+                                        @if($radiantData[$radiantHero]['heroPoints'] < 0)
+                                            <span class="fw-bold">Hero points: </span><span
+                                                class="text-danger">{{ $radiantData[$radiantHero]['heroPoints'] }}</span>
+                                        @elseif($radiantData[$radiantHero]['heroPoints'] > 0 and $radiantData[$radiantHero]['heroPoints'] < 2)
+                                            <span class="fw-bold">Hero points: </span><span
+                                                class="text-warning">{{ $radiantData[$radiantHero]['heroPoints'] }}</span>
                                         @else
-                                            <span class="fw-bold">Hero points: </span><span class="text-success">{{ $radiantHeroesPoints[$radiantHero] }}</span>
+                                            <span class="fw-bold">Hero points: </span><span
+                                                class="text-success">{{ $radiantData[$radiantHero]['heroPoints'] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
-                                        @if($radiantHeroesWeak[$radiantHero] < 1)
-                                            Hero weak: <span class="text-success">{{ $radiantHeroesWeak[$radiantHero]}}</span>
-                                        @elseif($radiantHeroesWeak[$radiantHero] > 1 and $radiantHeroesWeak[$radiantHero] < 5)
-                                            Hero weak: <span class="text-warning">{{ $radiantHeroesWeak[$radiantHero] }}</span>
+                                        @if($radiantData[$radiantHero]['heroWeak'] < 1)
+                                            Hero weak: <span
+                                                class="text-success">{{ $radiantData[$radiantHero]['heroWeak'] }}</span>
+                                        @elseif($radiantData[$radiantHero]['heroWeak'] > 1 and $radiantData[$radiantHero]['heroWeak']< 5)
+                                            Hero weak: <span
+                                                class="text-warning">{{ $radiantData[$radiantHero]['heroWeak'] }}</span>
                                         @else
-                                            Hero weak: <span class="text-danger">{{ $radiantHeroesWeak[$radiantHero] }}</span>
+                                            Hero weak: <span
+                                                class="text-danger">{{ $radiantData[$radiantHero]['heroWeak'] }}</span>
                                         @endif
                                     </div>
                                     <div class="ms-3">
-                                        @if($radiantHeroesPower[$radiantHero] < 1)
-                                            Hero power: <span class="text-danger">{{ $radiantHeroesPower[$radiantHero] }}</span>
-                                        @elseif($radiantHeroesPower[$radiantHero] > 1 and $radiantHeroesPower[$radiantHero] < 5)
-                                            Hero power: <span class="text-warning">{{ $radiantHeroesPower[$radiantHero] }}</span>
+                                        @if($radiantData[$radiantHero]['heroPower'] < 1)
+                                            Hero power: <span
+                                                class="text-danger">{{ $radiantData[$radiantHero]['heroPower'] }}</span>
+                                        @elseif($radiantData[$radiantHero]['heroPower']> 1 and $radiantData[$radiantHero]['heroPower'] < 5)
+                                            Hero power: <span
+                                                class="text-warning">{{ $radiantData[$radiantHero]['heroPower']}}</span>
                                         @else
-                                            Hero power: <span class="text-success">{{ $radiantHeroesPower[$radiantHero] }}</span>
+                                            Hero power: <span
+                                                class="text-success">{{ $radiantData[$radiantHero]['heroPower'] }}</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            @if(isset($radiantCounterPick[$radiantHero]))
-                                <div class="">{{ ucfirst($radiantCounterPick[$radiantHero]) }} неплох
-                                    против {{ $radiantHero }}
-                                </div>
+                            @if(isset($radiantData[$radiantHero]['counterPicks'] ))
+                                @foreach($direData[$radiantHero]['counterPicks'] as $counterPick)
+                                    <div class="">{{ ucfirst($counterPick) }} неплох
+                                        против {{ $radiantHero }}
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
                     @endforeach
