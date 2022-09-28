@@ -9,58 +9,46 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="h3">Draft points</div>
-                </div>
-            </div>
-            <div class="row pt-4">
-                <div class="col">
                     <div class="h4">Team Dire</div>
                     <hr>
                     @foreach($teamsData['dire']['heroes'] as $key => $direHero)
-                        <div class="d-flex mb-4 justify-content-between align-items-center bg-dark">
+                        <div class="d-flex align-items-center bg-dark">
                             <div>
                                 <img src="/images/heroes/{{ $key }}.jpg" alt="" width="100px">
                             </div>
-                            <div class="pe-2">
-                                <div class="text-uppercase fw-lighter fs-2 text-white">
-                                    {{ $key }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pb-4">
-                            <div class="col">
+                            <div class="d-flex flex-grow-1 justify-content-around text-white">
                                 <div class="">
-                                    POINTS
-                                </div>
-                                <hr class="my-1">
-                                <div>
                                     @if($direHero['points'] <= 0)
-                                        Total points: <span class="text-danger"> {{ $direHero['points'] }}</span>
+                                        Total: <span class="text-danger"> {{ $direHero['points'] }}</span>
                                     @elseif($direHero['points'] > 0 and $direHero['points'] < 3)
-                                        Total points: <span class="text-warning"> {{ $direHero['points'] }}</span>
+                                        Total: <span class="text-warning"> {{ $direHero['points'] }}</span>
                                     @elseif($direHero['points'] > 3)
-                                        Total points: <span class="text-success"> {{ $direHero['points'] }}</span>
+                                        Total: <span class="text-success"> {{ $direHero['points'] }}</span>
                                     @endif
                                 </div>
                                 <div>
                                     @if($direHero['powerPoints'] <= 0)
-                                        Hero power: <span class="text-danger"> {{ $direHero['powerPoints'] }} </span>
+                                        Power: <span class="text-danger"> {{ $direHero['powerPoints'] }} </span>
                                     @elseif($direHero['powerPoints'] > 0 and $direHero['powerPoints'] < 3)
-                                        Hero power: <span class="text-warning"> {{ $direHero['powerPoints'] }} </span>
+                                        Power: <span class="text-warning"> {{ $direHero['powerPoints'] }} </span>
                                     @elseif($direHero['powerPoints'] > 3)
-                                        Hero power: <span
+                                        Power: <span
                                             class="text-success"> {{ $direHero['powerPoints'] }} </span>
                                     @endif
                                 </div>
                                 <div>
                                     @if($direHero['weakPoints'] <= 0)
-                                        Hero weak: <span class="text-success"> {{ $direHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-success"> {{ $direHero['weakPoints'] }} </span>
                                     @elseif($direHero['weakPoints'] > 0 and $direHero['weakPoints'] < 3)
-                                        Hero weak: <span class="text-warning"> {{ $direHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-warning"> {{ $direHero['weakPoints'] }} </span>
                                     @elseif($direHero['weakPoints'] > 3)
-                                        Hero weak: <span class="text-danger"> {{ $direHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-danger"> {{ $direHero['weakPoints'] }} </span>
                                     @endif
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row pb-4">
+                            <div class="col">
                             </div>
                             <div class="col">
                                 @if(!empty($direHero['counterPicks']))
@@ -113,15 +101,40 @@
                             </div>
                         </div>
                     @endforeach
+                    <div class="mt-3">
+                        <span class="fs-4">
+                            TOTAL
+                        </span>
+                    </div>
                     <hr>
                     <div>
-                        <span class="text-uppercase fs-4">
-                    Team points = {{ $teamsData['dire']['points'] }}
+                        <span class="">
+                            Points = {{ $teamsData['dire']['points'] }}
                         </span>
                     </div>
                     <div>
-                        <span class="text-uppercase fs-4">
-                    Team weak = {{ $teamsData['dire']['weak'] }}
+                        <span class="">
+                            Weak = {{ $teamsData['dire']['weak'] }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Gradient = {{ $teamsData['dire']['tempo']['totalGradient'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Early winrate = {{ $teamsData['dire']['tempo']['totalEarlyWinrate'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Middle winrate = {{ $teamsData['dire']['tempo']['totalMiddleWinrate'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Late winrate = {{ $teamsData['dire']['tempo']['totalLateWinrate'] }}%
                         </span>
                     </div>
                 </div>
@@ -131,52 +144,42 @@
                     <div class="h4">Team Radiant</div>
                     <hr>
                     @foreach($teamsData['radiant']['heroes'] as $key => $radiantHero)
-                        <div class="d-flex mb-4 justify-content-between align-items-center bg-dark">
+                        <div class="d-flex align-items-center bg-dark">
                             <div>
                                 <img src="/images/heroes/{{ $key }}.jpg" alt="" width="100px">
                             </div>
-                            <div class="pe-2">
-                                <div class="text-uppercase fw-lighter fs-2 text-white">
-                                    {{ $key }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row  pb-4">
-                            <div class="col">
+                            <div class="d-flex flex-grow-1 justify-content-around text-white px-3">
                                 <div class="">
-                                    POINTS
-                                </div>
-                                <hr class="my-1">
-                                <div>
                                     @if($radiantHero['points'] <= 0)
-                                        Total points: <span class="text-danger"> {{ $radiantHero['points'] }}</span>
+                                        Total: <span class="text-danger"> {{ $radiantHero['points'] }}</span>
                                     @elseif($radiantHero['points'] > 0 and $radiantHero['points'] < 3)
-                                        Total points: <span class="text-warning"> {{ $radiantHero['points'] }}</span>
+                                        Total: <span class="text-warning"> {{ $radiantHero['points'] }}</span>
                                     @elseif($radiantHero['points'] > 3)
-                                        Total points: <span class="text-success"> {{ $radiantHero['points'] }}</span>
+                                        Total: <span class="text-success"> {{ $radiantHero['points'] }}</span>
                                     @endif
                                 </div>
                                 <div>
                                     @if($radiantHero['powerPoints'] <= 0)
-                                        Hero power: <span class="text-danger"> {{ $radiantHero['powerPoints'] }} </span>
+                                        Power: <span class="text-danger"> {{ $radiantHero['powerPoints'] }} </span>
                                     @elseif($radiantHero['powerPoints'] > 0 and $radiantHero['powerPoints'] < 3)
-                                        Hero power: <span
-                                            class="text-warning"> {{ $radiantHero['powerPoints'] }} </span>
+                                        Power: <span class="text-warning"> {{ $radiantHero['powerPoints'] }} </span>
                                     @elseif($radiantHero['powerPoints'] > 3)
-                                        Hero power: <span
+                                        Power: <span
                                             class="text-success"> {{ $radiantHero['powerPoints'] }} </span>
                                     @endif
                                 </div>
                                 <div>
                                     @if($radiantHero['weakPoints'] <= 0)
-                                        Hero weak: <span class="text-success"> {{ $radiantHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-success"> {{ $radiantHero['weakPoints'] }} </span>
                                     @elseif($radiantHero['weakPoints'] > 0 and $radiantHero['weakPoints'] < 3)
-                                        Hero weak: <span class="text-warning"> {{ $radiantHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-warning"> {{ $radiantHero['weakPoints'] }} </span>
                                     @elseif($radiantHero['weakPoints'] > 3)
-                                        Hero weak: <span class="text-danger"> {{ $radiantHero['weakPoints'] }} </span>
+                                        Weak: <span class="text-danger"> {{ $radiantHero['weakPoints'] }} </span>
                                     @endif
                                 </div>
                             </div>
+                        </div>
+                        <div class="row  pb-4">
                             <div class="col">
                                 @if(!empty($radiantHero['counterPicks']))
                                     <div class="">
@@ -228,19 +231,43 @@
                             </div>
                         </div>
                     @endforeach
+                    <div class="mt-3">
+                        <span class="fs-4">
+                            TOTAL
+                        </span>
+                    </div>
                     <hr>
                     <div>
-                <span class="text-uppercase fs-4">
-                    Team points = {{ $teamsData['radiant']['points'] }}
-                </span>
+                        <span class="">
+                            Points = {{ $teamsData['radiant']['points'] }}
+                        </span>
                     </div>
                     <div>
-                <span class="text-uppercase fs-4">
-                    Team weak = {{ $teamsData['radiant']['weak'] }}
-                </span>
+                        <span class="">
+                            Weak = {{ $teamsData['radiant']['weak'] }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Gradient = {{ $teamsData['radiant']['tempo']['totalGradient'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Early winrate = {{ $teamsData['radiant']['tempo']['totalEarlyWinrate'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Middle winrate = {{ $teamsData['radiant']['tempo']['totalMiddleWinrate'] }}%
+                        </span>
+                    </div>
+                    <div>
+                        <span class="">
+                            Late winrate = {{ $teamsData['radiant']['tempo']['totalLateWinrate'] }}%
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection

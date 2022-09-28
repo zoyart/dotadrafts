@@ -90,9 +90,16 @@ class Team
     public function heroTempoAnalysis()
     {
         // Анализ темпа команды тьмы
+        $this->teamsData['dire']['tempo'] = ['totalGradient' => 0];
+
         foreach ($this->direHeroes as $direHero) {
             $heroTempo = Tempo::where('hero_name', $direHero)->first();
 
+            $earlyWinrate[] = $heroTempo->early_winrate;
+            $middleWinrate[] = $heroTempo->middle_winrate;
+            $lateWinrate[] = $heroTempo->late_winrate;
+
+            $this->teamsData['dire']['tempo']['totalGradient'] += $heroTempo->gradient;
             $this->teamsData['dire']['heroes'][$direHero]['tempo'] = [
                 'heroName' => $heroTempo->hero_name,
                 'matches' => $heroTempo->matches,
@@ -106,10 +113,22 @@ class Team
             ];
         }
 
+        $this->teamsData['dire']['tempo']['totalEarlyWinrate'] = array_sum($earlyWinrate) / count($earlyWinrate);
+        $this->teamsData['dire']['tempo']['totalMiddleWinrate'] = array_sum($middleWinrate) / count($middleWinrate);
+        $this->teamsData['dire']['tempo']['totalLateWinrate'] = array_sum($lateWinrate) / count($lateWinrate);
+
+
         // Анализ темпа команды света
+        $this->teamsData['radiant']['tempo'] = ['totalGradient' => 0];
+
         foreach ($this->radiantHeroes as $radiantHero) {
             $heroTempo = Tempo::where('hero_name', $radiantHero)->first();
 
+            $earlyWinrate[] = $heroTempo->early_winrate;
+            $middleWinrate[] = $heroTempo->middle_winrate;
+            $lateWinrate[] = $heroTempo->late_winrate;
+
+            $this->teamsData['radiant']['tempo']['totalGradient'] += $heroTempo->gradient;
             $this->teamsData['radiant']['heroes'][$radiantHero]['tempo'] = [
                 'heroName' => $heroTempo->hero_name,
                 'matches' => $heroTempo->matches,
@@ -122,5 +141,9 @@ class Team
                 'gradient' => $heroTempo->gradient,
             ];
         }
+
+        $this->teamsData['radiant']['tempo']['totalEarlyWinrate'] = array_sum($earlyWinrate) / count($earlyWinrate);
+        $this->teamsData['radiant']['tempo']['totalMiddleWinrate'] = array_sum($middleWinrate) / count($middleWinrate);
+        $this->teamsData['radiant']['tempo']['totalLateWinrate'] = array_sum($lateWinrate) / count($lateWinrate);
     }
 }
