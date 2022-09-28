@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Parse;
 
 use App\Http\Controllers\Controller;
 use App\Models\Matchup;
+use App\Models\Tempo;
+
 include 'simple_html_dom.php';
+
 
 class ParseController extends Controller
 {
@@ -69,9 +72,52 @@ class ParseController extends Controller
                     'percent' => $matchupPercent,
                 ]);
             }
-
             // Чтобы не разозлить сайт)
             sleep(8);
         }
+
+        curl_close($request);
+    }
+
+    public function tempo() {
+        $request = curl_init("https://stats.spectral.gg/lrg2/?league=imm_ranked_730d&mod=heroes-wrtimings");
+        $headers = [
+            'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+        ];
+
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+
+        $html = str_get_html(curl_exec($request));
+        $tableItems = $html->find('#heroes-wrtimings', 0)->find('tbody', 0)->find('tr');
+
+        foreach ($tableItems as $item) {
+            $heroName = mb_strtolower($item->find('td', 1)->plaintext);
+            $matches = $item->find('td', 2)->plaintext;
+
+            $earlyDuration = $item->find('td', 3)->plaintext;
+            $middleDuration = $item->find('td', 6)->plaintext;
+            $lateDuration = $item->find('td', 5)->plaintext;
+
+            $earlyWinrate =  str_replace("%", " ", $item->find('td', 8)->plaintext);
+            $middleWinrate = str_replace("%", " ", $item->find('td', 9)->plaintext);
+            $lateWinrate = str_replace("%", " ", $item->find('td', 10)->plaintext);
+
+            $gradient = str_replace("%", " ", $item->find('td', 11)->plaintext);;
+
+            Tempo::create([
+                'hero_name' => $heroName,
+                'matches' => $matches,
+                'early_duration' => $earlyDuration,
+                'middle_duration' => $middleDuration,
+                'late_duration' => $lateDuration,
+                'early_winrate' => $earlyWinrate,
+                'middle_winrate' => $middleWinrate,
+                'late_winrate' => $lateWinrate,
+                'gradient' => $gradient,
+            ]);
+        }
+
+        curl_close($request);
     }
 }
