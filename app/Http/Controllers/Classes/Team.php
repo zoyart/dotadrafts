@@ -55,7 +55,7 @@ class Team
                     $this->teamsData['dire']['heroes'][$direHero]['weakPoints'] += $matchup['percent'];
                 }
                 if ($matchup['percent'] > 1.5) {
-                    $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][] = "{$radiantHero} ({$matchup['percent']})";
+                    $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][$radiantHero] = $matchup['percent'];
                 }
             }
         }
@@ -80,8 +80,8 @@ class Team
                     $this->teamsData['radiant']['weak'] += $matchup['percent'];
                     $this->teamsData['radiant']['heroes'][$radiantHero]['weakPoints'] += $matchup['percent'];
                 }
-                if ($matchup['percent'] > 2) {
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][] = "{$direHero} ({$matchup['percent']})";
+                if ($matchup['percent'] > 1.5) {
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][$direHero] = $matchup['percent'];
                 }
             }
         }
@@ -89,7 +89,9 @@ class Team
 
     public function heroTempoAnalysis()
     {
-        // Анализ темпа команды тьмы
+        /*=========================
+        Анализ темпа команды тьмы
+        =========================*/
         $this->teamsData['dire']['tempo'] = ['totalGradient' => 0];
 
         foreach ($this->direHeroes as $direHero) {
@@ -103,9 +105,6 @@ class Team
             $this->teamsData['dire']['heroes'][$direHero]['tempo'] = [
                 'heroName' => $heroTempo->hero_name,
                 'matches' => $heroTempo->matches,
-                'earlyDuration' => $heroTempo->early_duration,
-                'middleDuration' => $heroTempo->middle_duration,
-                'lateDuration' => $heroTempo->late_duration,
                 'earlyWinrate' => $heroTempo->early_winrate,
                 'middleWinrate' => $heroTempo->middle_winrate,
                 'lateWinrate' => $heroTempo->late_winrate,
@@ -118,7 +117,9 @@ class Team
         $this->teamsData['dire']['tempo']['totalLateWinrate'] = array_sum($lateWinrateDire) / count($lateWinrateDire);
 
 
-        // Анализ темпа команды света
+        /*=========================
+        Анализ темпа команды света
+        =========================*/
         $this->teamsData['radiant']['tempo'] = ['totalGradient' => 0];
 
         foreach ($this->radiantHeroes as $radiantHero) {
@@ -132,9 +133,6 @@ class Team
             $this->teamsData['radiant']['heroes'][$radiantHero]['tempo'] = [
                 'heroName' => $heroTempo->hero_name,
                 'matches' => $heroTempo->matches,
-                'earlyDuration' => $heroTempo->early_duration,
-                'middleDuration' => $heroTempo->middle_duration,
-                'lateDuration' => $heroTempo->late_duration,
                 'earlyWinrate' => $heroTempo->early_winrate,
                 'middleWinrate' => $heroTempo->middle_winrate,
                 'lateWinrate' => $heroTempo->late_winrate,

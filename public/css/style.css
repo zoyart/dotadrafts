@@ -1,1 +1,1 @@
-body{font-family:Montserrat,sans-serif}
+body,html{font-family:Montserrat,sans-serif;height:100%}.wrapper{display:flex;flex-direction:column;min-height:100%}.content{flex:1 1 auto}

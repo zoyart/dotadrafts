@@ -17,9 +17,9 @@
 <body>
 <div class="wrapper">
     @include("layouts.header")
-
+    <div class="content" style="background-color: #17191C">
         @yield('content')
-
+    </div>
     @include("layouts.footer")
 </div>
 </body>
