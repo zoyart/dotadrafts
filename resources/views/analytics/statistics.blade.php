@@ -58,55 +58,6 @@
                                 </div>
                             </div>
                             <div class="text-white px-3 pb-3">
-                                <div class="row pb-2">
-                                    <div class="col">
-                                        <div class="d-flex flex-column">
-                                            <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#direWinrateButton{{str_replace(' ', "_", $key)}}"
-                                                    aria-expanded="false"
-                                                    aria-controls="collapseExample"
-                                                    style="background-color: #17191C">
-                                                Winrate
-                                            </button>
-                                            <div class="collapse py-2"
-                                                 id="direWinrateButton{{str_replace(' ', "_", $key)}}">
-                                                <div class="bg-dark">
-                                                    <div>
-                                                        Early winrate: {{$direHero['tempo']['earlyWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Middle winrate: {{$direHero['tempo']['middleWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Late winrate: {{$direHero['tempo']['lateWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Gradient: {{$direHero['tempo']['gradient']}}%
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="d-flex flex-column">
-                                            <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#direSynergyButton{{str_replace(' ', "_", $key)}}"
-                                                    aria-expanded="false"
-                                                    aria-controls="collapseExample"
-                                                    style="background-color: #17191C">
-                                                Synergy
-                                            </button>
-                                            <div class="collapse py-2"
-                                                 id="direSynergyButton{{str_replace(' ', "_", $key)}}">
-                                                <div class="bg-dark">
-                                                    Some placeholder content for the collapse component. This panel is
-                                                    hidden by default but revealed when the user activates the relevant
-                                                    trigger.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="d-flex">
@@ -175,55 +126,6 @@
                                 </div>
                             </div>
                             <div class="text-white px-3 pb-3">
-                                <div class="row pb-2">
-                                    <div class="col">
-                                        <div class="d-flex flex-column">
-                                            <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#direWinrateButton{{str_replace(' ', "_", $key)}}"
-                                                    aria-expanded="false"
-                                                    aria-controls="collapseExample"
-                                                    style="background-color: #17191C">
-                                                Winrate
-                                            </button>
-                                            <div class="collapse py-2"
-                                                 id="direWinrateButton{{str_replace(' ', "_", $key)}}">
-                                                <div class="bg-dark">
-                                                    <div>
-                                                        Early winrate: {{$radiantHero['tempo']['earlyWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Middle winrate: {{$radiantHero['tempo']['middleWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Late winrate: {{$radiantHero['tempo']['lateWinrate']}}%
-                                                    </div>
-                                                    <div>
-                                                        Gradient: {{$radiantHero['tempo']['gradient']}}%
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="d-flex flex-column">
-                                            <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#direSynergyButton{{str_replace(' ', "_", $key)}}"
-                                                    aria-expanded="false"
-                                                    aria-controls="collapseExample"
-                                                    style="background-color: #17191C">
-                                                Synergy
-                                            </button>
-                                            <div class="collapse py-2"
-                                                 id="direSynergyButton{{str_replace(' ', "_", $key)}}">
-                                                <div class="bg-dark">
-                                                    Some placeholder content for the collapse component. This panel is
-                                                    hidden by default but revealed when the user activates the relevant
-                                                    trigger.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="d-flex">

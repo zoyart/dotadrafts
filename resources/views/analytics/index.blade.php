@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col">
-                    <div class="title fs-2 fw-bold text-dark">
+                    <div class="title fs-2 fw-bold text-light">
                         DIRE
                         <span class="text-danger"> *</span>
                     </div>
@@ -26,7 +26,7 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col">
-                    <div class="title fs-2 fw-bold text-dark ">
+                    <div class="title fs-2 fw-bold text-light ">
                         RADIANT
                         <span class="text-success"> *</span>
                     </div>
@@ -45,16 +45,16 @@
         <div class="row py-5">
             <div class="col">
                 <div class="d-grid">
-                    <button type="submit" form="analyze" class="btn btn-outline-dark">Analyze</button>
+                    <button type="submit" form="analyze" class="btn btn-dark">Analyze</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="heroes bg-light py-5">
+    <div class="heroes py-5 bg-dark">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="title fs-2 fw-bold text-dark mb-3">
+                    <div class="title fs-2 fw-bold text-light mb-3">
                         HEROES
                     </div>
                 </div>
@@ -62,8 +62,9 @@
             <div class="row">
                 <div class="col">
                     <div class="search">
-                        <input class="form-control" autocomplete="off" id="search" type="text" placeholder="Search hero"
-                               aria-label="dire_hero">
+                        <input class="form-control text-light border-0" autocomplete="off" id="search" type="text" placeholder="Search hero"
+                               aria-label="dire_hero"
+                               style="background-color: #17191C">
                     </div>
                 </div>
             </div>
@@ -103,7 +104,7 @@
         let hero_name = $(this).attr('name')
         let image = `<div class="d-flex flex-column">
                         <img src="/images/heroes/${hero_name}.jpg" alt="" width="120px">
-                        <div class="hero-name">${hero_name}
+                        <div class="hero-name text-light">${hero_name}
                         </div>
                     </div>`
         $('.dire-hero').append(image);
@@ -114,7 +115,7 @@
         let hero_name = $(this).attr('name')
         let image = `<div class="d-flex flex-column">
                         <img src="/images/heroes/${hero_name}.jpg" alt="" width="120px">
-                        <div class="hero-name">${hero_name}
+                        <div class="hero-name text-light">${hero_name}
                         </div>
                     </div>`
         $('.radiant-hero').append(image);
