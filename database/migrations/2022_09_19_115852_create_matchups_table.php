@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('matchups', function (Blueprint $table) {
-            $table->id();
+            $table->integer('hero_id');
             $table->string('hero')->nullable();
             $table->string('matchup_hero')->nullable();
-            $table->string('percent')->nullable();
+            $table->string('vs')->nullable();
+            $table->string('with')->nullable();
         });
     }
 

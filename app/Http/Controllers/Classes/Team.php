@@ -14,12 +14,14 @@ class Team
         'dire' => [
             'heroes' => [],
             'weak' => 0,
-            'points' => 0
+            'points' => 0,
+            'synergy' => 0
         ],
         'radiant' => [
             'heroes' => [],
             'weak' => 0,
-            'points' => 0
+            'points' => 0,
+            'synergy' => 0
         ]
     ];
 
@@ -29,7 +31,7 @@ class Team
         $this->radiantHeroes = $radiantHeroes;
     }
 
-    public function heroPowerAnalysis()
+    public function heroPower()
     {
         // Анализ очков для стороны тьмы
         foreach ($this->direHeroes as $direHero) {
@@ -44,18 +46,18 @@ class Team
             foreach ($this->radiantHeroes as $radiantHero) {
                 $matchup = Matchup::where('hero', $direHero)->where('matchup_hero', $radiantHero)->first();
 
-                $this->teamsData['dire']['heroes'][$direHero]['points'] -= $matchup['percent'];
-                $this->teamsData['dire']['points'] -= $matchup['percent'];
+                $this->teamsData['dire']['heroes'][$direHero]['points'] -= $matchup['vs'];
+                $this->teamsData['dire']['points'] -= $matchup['vs'];
 
-                if ($matchup['percent'] < 0) {
-                    $this->teamsData['dire']['heroes'][$direHero]['powerPoints'] -= $matchup['percent'];
+                if ($matchup['vs'] < 0) {
+                    $this->teamsData['dire']['heroes'][$direHero]['powerPoints'] -= $matchup['vs'];
                 }
-                if ($matchup['percent'] > 0) {
-                    $this->teamsData['dire']['weak'] += $matchup['percent'];
-                    $this->teamsData['dire']['heroes'][$direHero]['weakPoints'] += $matchup['percent'];
+                if ($matchup['vs'] > 0) {
+                    $this->teamsData['dire']['weak'] += $matchup['vs'];
+                    $this->teamsData['dire']['heroes'][$direHero]['weakPoints'] += $matchup['vs'];
                 }
-                if ($matchup['percent'] > 1.5) {
-                    $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][$radiantHero] = $matchup['percent'];
+                if ($matchup['vs'] > 1.5) {
+                    $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][$radiantHero] = $matchup['vs'];
                 }
             }
         }
@@ -70,24 +72,24 @@ class Team
             foreach ($this->direHeroes as $direHero) {
                 $matchup = Matchup::where('hero', $radiantHero)->where('matchup_hero', $direHero)->first();
 
-                $this->teamsData['radiant']['heroes'][$radiantHero]['points'] -= $matchup['percent'];
-                $this->teamsData['radiant']['points'] -= $matchup['percent'];
+                $this->teamsData['radiant']['heroes'][$radiantHero]['points'] -= $matchup['vs'];
+                $this->teamsData['radiant']['points'] -= $matchup['vs'];
 
-                if ($matchup['percent'] < 0) {
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['powerPoints'] -= $matchup['percent'];
+                if ($matchup['vs'] < 0) {
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['powerPoints'] -= $matchup['vs'];
                 }
-                if ($matchup['percent'] > 0) {
-                    $this->teamsData['radiant']['weak'] += $matchup['percent'];
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['weakPoints'] += $matchup['percent'];
+                if ($matchup['vs'] > 0) {
+                    $this->teamsData['radiant']['weak'] += $matchup['vs'];
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['weakPoints'] += $matchup['vs'];
                 }
-                if ($matchup['percent'] > 1.5) {
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][$direHero] = $matchup['percent'];
+                if ($matchup['vs'] > 1.5) {
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][$direHero] = $matchup['vs'];
                 }
             }
         }
     }
 
-    public function heroTempoAnalysis()
+    public function heroTempo()
     {
         /*=========================
         Анализ темпа команды тьмы
@@ -143,5 +145,48 @@ class Team
         $this->teamsData['radiant']['tempo']['totalEarlyWinrate'] = array_sum($earlyWinrateRadiant) / count($earlyWinrateRadiant);
         $this->teamsData['radiant']['tempo']['totalMiddleWinrate'] = array_sum($middleWinrateRadiant) / count($middleWinrateRadiant);
         $this->teamsData['radiant']['tempo']['totalLateWinrate'] = array_sum($lateWinrateRadiant) / count($lateWinrateRadiant);
+    }
+
+    public function heroSynergy() {
+        /*=========================
+        Анализ синергии команды тьмы
+        =========================*/
+        foreach ($this->direHeroes as $direHero) {
+            $this->teamsData['dire']['heroes'][$direHero]['heroSynergy'] = 0;
+
+            foreach ($this->direHeroes as $direHeroSynergy) {
+                if (!($direHero === $direHeroSynergy)) {
+                    $heroSynergy = Matchup::where('hero', $direHero)->where('matchup_hero', $direHeroSynergy)->first();
+                    $heroSynergyRounded = round($heroSynergy->with / 4  , 2);
+                    $this->teamsData['dire']['heroes'][$direHero]['synergy'][$direHeroSynergy] = $heroSynergyRounded;
+                    $this->teamsData['dire']['heroes'][$direHero]['heroSynergy']  += $heroSynergyRounded;
+
+//                    $this->teamsData['dire']['heroes'][$direHero]['points'] += $heroSynergyRounded;
+//                    $this->teamsData['dire']['points'] += $heroSynergyRounded;
+                    $this->teamsData['dire']['synergy'] += $heroSynergyRounded;
+                }
+            }
+        }
+
+        /*=========================
+        Анализ синергии команды света
+        =========================*/
+        foreach ($this->radiantHeroes as $radiantHero) {
+            $this->teamsData['radiant']['heroes'][$radiantHero]['heroSynergy'] = 0;
+
+            foreach ($this->radiantHeroes as $radiantHeroSynergy) {
+                if (!($radiantHero === $radiantHeroSynergy)) {
+                    $heroSynergy = Matchup::where('hero', $radiantHero)->where('matchup_hero', $radiantHeroSynergy)->first();
+                    $heroSynergyRounded = round($heroSynergy->with  / 4, 2);
+
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['synergy'][$radiantHeroSynergy] = $heroSynergyRounded;
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['heroSynergy']  += $heroSynergyRounded;
+
+//                    $this->teamsData['radiant']['heroes'][$radiantHero]['points'] += $heroSynergyRounded;
+//                    $this->teamsData['radiant']['points'] += $heroSynergyRounded;
+                    $this->teamsData['radiant']['synergy'] += $heroSynergyRounded;
+                }
+            }
+        }
     }
 }

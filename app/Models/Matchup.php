@@ -11,8 +11,10 @@ class Matchup extends Model
 
     public $timestamps = false;
     protected $fillable = [
+        'hero_id',
         'hero',
         'matchup_hero',
-        'percent',
+        'vs',
+        'with',
     ];
 }

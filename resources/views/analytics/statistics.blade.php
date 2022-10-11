@@ -46,33 +46,53 @@
                                         @endif
                                     </div>
                                     <div>
-                                        {{--                                        @if($direHero['weakPoints'] <= 0)--}}
-                                        {{--                                            SYNERGY <span class="text-success"> {{ $direHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @elseif($direHero['weakPoints'] > 0 and $direHero['weakPoints'] < 3)--}}
-                                        {{--                                            SYNERGY <span class="text-warning"> {{ $direHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @elseif($direHero['weakPoints'] > 3)--}}
-                                        {{--                                            SYNERGY <span class="text-danger"> {{ $direHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @endif--}}
-                                        None
+                                        @if($direHero['heroSynergy'] <= 0)
+                                            SYNERGY <span class="text-danger"> {{ $direHero['heroSynergy'] }} </span>
+                                        @elseif($direHero['heroSynergy'] > 0 and $direHero['heroSynergy'] < 3)
+                                            SYNERGY <span class="text-warning"> {{ $direHero['heroSynergy'] }} </span>
+                                        @elseif($direHero['heroSynergy'] > 3)
+                                            SYNERGY <span class="text-success"> {{ $direHero['heroSynergy'] }} </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-white px-3 pb-3">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="d-flex">
-                                            @foreach($direHero['counterPicks'] as $heroName => $percent)
-                                                <div class="d-flex align-items-center rounded bg-danger me-3">
-                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg" alt="" width="50px">
-                                                    <div class="px-3">
-                                                        {{ ucfirst($heroName) }} {{ $percent }}
+{{--                            <div class="text-white px-3 pb-3">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col">--}}
+{{--                                        <div class="d-flex">--}}
+{{--                                            @foreach($direHero['synergy'] as $heroName => $percent)--}}
+{{--                                                <div class="d-flex align-items-center rounded bg-success     me-3">--}}
+{{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
+{{--                                                         alt="" width="50px">--}}
+{{--                                                    <div class="px-3">--}}
+{{--                                                        {{ $percent }}--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            @if(count($direHero['counterPicks']))
+                                <div class="text-white px-3 pb-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                @foreach($direHero['counterPicks'] as $heroName => $percent)
+                                                    <div class="d-flex align-items-center rounded bg-danger me-3">
+                                                        <img class="rounded-start"
+                                                             src="/images/heroes/{{ $heroName }}.jpg"
+                                                             alt="" width="50px">
+                                                        <div class="px-3">
+                                                            {{ $percent }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -114,33 +134,58 @@
                                         @endif
                                     </div>
                                     <div>
-                                        {{--                                        @if($radiantHero['weakPoints'] <= 0)--}}
-                                        {{--                                            SYNERGY <span class="text-success"> {{ $radiantHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @elseif($radiantHero['weakPoints'] > 0 and $radiantHero['weakPoints'] < 3)--}}
-                                        {{--                                            SYNERGY <span class="text-warning"> {{ $radiantHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @elseif($radiantHero['weakPoints'] > 3)--}}
-                                        {{--                                            SYNERGY <span class="text-danger"> {{ $radiantHero['weakPoints'] }} </span>--}}
-                                        {{--                                        @endif--}}
-                                        None
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-white px-3 pb-3">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="d-flex">
-                                            @foreach($radiantHero['counterPicks'] as $heroName => $percent)
-                                                <div class="d-flex align-items-center rounded-1 bg-danger me-3">
-                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg" alt="" width="50px">
-                                                    <div class="px-3">
-                                                        {{ ucfirst($heroName) }} {{ $percent }}
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                                        <div>
+                                            @if($radiantHero['heroSynergy'] <= 0)
+                                                SYNERGY <span
+                                                    class="text-danger"> {{ $radiantHero['heroSynergy'] }} </span>
+                                            @elseif($radiantHero['heroSynergy'] > 0 and $radiantHero['heroSynergy'] < 3)
+                                                SYNERGY <span
+                                                    class="text-warning"> {{ $radiantHero['heroSynergy'] }} </span>
+                                            @elseif($radiantHero['heroSynergy'] > 3)
+                                                SYNERGY <span
+                                                    class="text-success"> {{ $radiantHero['heroSynergy'] }} </span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
+{{--                            <div class="text-white px-3 pb-3">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col">--}}
+{{--                                        <div class="d-flex">--}}
+{{--                                            @foreach($radiantHero['synergy'] as $heroName => $percent)--}}
+{{--                                                <div class="d-flex align-items-center rounded bg-success me-3">--}}
+{{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
+{{--                                                         alt="" width="50px">--}}
+{{--                                                    <div class="px-3">--}}
+{{--                                                        {{ $percent }}--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            @if(count($radiantHero['counterPicks']))
+                                <div class="text-white px-3 pb-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                @foreach($radiantHero['counterPicks'] as $heroName => $percent)
+                                                    <div class="d-flex align-items-center rounded bg-danger me-3">
+                                                        <img class="rounded-start"
+                                                             src="/images/heroes/{{ $heroName }}.jpg" alt=""
+                                                             width="50px">
+                                                        <div class="px-3">
+                                                            {{ $percent }}
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -156,7 +201,7 @@
                             Weak: {{ $teamsData['dire']['weak'] }}
                         </div>
                         <div>
-                            Synergy: None
+                            Synergy: {{ $teamsData['dire']['synergy'] }}
                         </div>
                         <div class="mt-2">
                             Winrate
@@ -184,7 +229,7 @@
                             Weak: {{ $teamsData['radiant']['weak'] }}
                         </div>
                         <div>
-                            Synergy: None
+                            Synergy: {{ $teamsData['radiant']['synergy'] }}
                         </div>
                         <div class="mt-2">
                             Winrate
