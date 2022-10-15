@@ -1,6 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark shadow"
-     style="height: 70px; background: rgb(0,40,66);
-            background: linear-gradient(90deg, rgba(0,40,66,1) 0%, rgba(0,126,118,1) 100%);">
+<nav class="navbar navbar-expand-lg navbar-dark shadow bg-dark"
+     style="height: 70px; ">
     <div class="container">
         <a class="navbar-brand" href="/">DotaDrafts</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"

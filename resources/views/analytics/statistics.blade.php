@@ -56,23 +56,23 @@
                                     </div>
                                 </div>
                             </div>
-{{--                            <div class="text-white px-3 pb-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <div class="d-flex">--}}
-{{--                                            @foreach($direHero['synergy'] as $heroName => $percent)--}}
-{{--                                                <div class="d-flex align-items-center rounded bg-success     me-3">--}}
-{{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
-{{--                                                         alt="" width="50px">--}}
-{{--                                                    <div class="px-3">--}}
-{{--                                                        {{ $percent }}--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            {{--                            <div class="text-white px-3 pb-3">--}}
+                            {{--                                <div class="row">--}}
+                            {{--                                    <div class="col">--}}
+                            {{--                                        <div class="d-flex">--}}
+                            {{--                                            @foreach($direHero['synergy'] as $heroName => $percent)--}}
+                            {{--                                                <div class="d-flex align-items-center rounded bg-success     me-3">--}}
+                            {{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
+                            {{--                                                         alt="" width="50px">--}}
+                            {{--                                                    <div class="px-3">--}}
+                            {{--                                                        {{ $percent }}--}}
+                            {{--                                                    </div>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endforeach--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
                             @if(count($direHero['counterPicks']))
                                 <div class="text-white px-3 pb-3">
                                     <div class="row">
@@ -149,23 +149,23 @@
                                     </div>
                                 </div>
                             </div>
-{{--                            <div class="text-white px-3 pb-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <div class="d-flex">--}}
-{{--                                            @foreach($radiantHero['synergy'] as $heroName => $percent)--}}
-{{--                                                <div class="d-flex align-items-center rounded bg-success me-3">--}}
-{{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
-{{--                                                         alt="" width="50px">--}}
-{{--                                                    <div class="px-3">--}}
-{{--                                                        {{ $percent }}--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            {{--                            <div class="text-white px-3 pb-3">--}}
+                            {{--                                <div class="row">--}}
+                            {{--                                    <div class="col">--}}
+                            {{--                                        <div class="d-flex">--}}
+                            {{--                                            @foreach($radiantHero['synergy'] as $heroName => $percent)--}}
+                            {{--                                                <div class="d-flex align-items-center rounded bg-success me-3">--}}
+                            {{--                                                    <img class="rounded-start" src="/images/heroes/{{ $heroName }}.jpg"--}}
+                            {{--                                                         alt="" width="50px">--}}
+                            {{--                                                    <div class="px-3">--}}
+                            {{--                                                        {{ $percent }}--}}
+                            {{--                                                    </div>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endforeach--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
                             @if(count($radiantHero['counterPicks']))
                                 <div class="text-white px-3 pb-3">
                                     <div class="row">
@@ -190,62 +190,87 @@
                     @endforeach
                 </div>
             </div>
-            <div class="row my-5">
-                <div class="h4 text-light mb-3">Total</div>
+
+            <div class="row pb-3">
                 <div class="col">
-                    <div class="bg-dark rounded-1 text-light p-3">
+                    <div class="rounded-1 text-light p-3 d-flex justify-content-between"
+                         style="background-color: rgba(0,126,118,1);">
                         <div>
-                            Points: {{ $teamsData['dire']['points'] }}
+                            TOTAL {{ $teamsData['dire']['points'] }}
                         </div>
                         <div>
-                            Weak: {{ $teamsData['dire']['weak'] }}
+                            WEAK {{ $teamsData['dire']['weak'] }}
                         </div>
                         <div>
-                            Synergy: {{ $teamsData['dire']['synergy'] }}
-                        </div>
-                        <div class="mt-2">
-                            Winrate
-                        </div>
-                        <div>
-                            Early: {{ $teamsData['dire']['tempo']['totalEarlyWinrate'] }}%
-                        </div>
-                        <div>
-                            Middle: {{ $teamsData['dire']['tempo']['totalMiddleWinrate'] }}%
-                        </div>
-                        <div>
-                            Late: {{ $teamsData['dire']['tempo']['totalLateWinrate'] }}%
-                        </div>
-                        <div>
-                            Gradient: {{ $teamsData['dire']['tempo']['totalGradient'] }}%
+                            SYNERGY {{ $teamsData['dire']['synergy'] }}
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="bg-dark rounded-1 text-light p-3">
+                    <div class="rounded-1 text-light p-3 d-flex justify-content-between"
+                         style="background-color: rgba(0,126,118,1);">
                         <div>
-                            Points: {{ $teamsData['radiant']['points'] }}
-                        </div>
-                        <div>
-                            Weak: {{ $teamsData['radiant']['weak'] }}
+                            TOTAL {{ $teamsData['radiant']['points'] }}
                         </div>
                         <div>
-                            Synergy: {{ $teamsData['radiant']['synergy'] }}
-                        </div>
-                        <div class="mt-2">
-                            Winrate
+                            WEAK {{ $teamsData['radiant']['weak'] }}
                         </div>
                         <div>
-                            Early: {{ $teamsData['radiant']['tempo']['totalEarlyWinrate'] }}%
+                            SYNERGY {{ $teamsData['radiant']['synergy'] }}
                         </div>
-                        <div>
-                            Middle: {{ $teamsData['radiant']['tempo']['totalMiddleWinrate'] }}%
-                        </div>
-                        <div>
-                            Late: {{ $teamsData['radiant']['tempo']['totalLateWinrate'] }}%
-                        </div>
-                        <div>
-                            Gradient: {{ $teamsData['radiant']['tempo']['totalGradient'] }}%
-                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex mb-3 align-items-center">
+                <div class="h5 text-white me-3 mb-0">
+                    TOTAL
+                </div>
+                <div class="flex-grow-1">
+                    <div class="progress" style="height: 20px;" >
+                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment one"
+                             style="width: {{ $teamsData['dire']['pointsPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['dire']['pointsPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['dire']['pointsPercent'] }}</div>
+                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two"
+                             style="width: {{ $teamsData['radiant']['pointsPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['radiant']['pointsPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['radiant']['pointsPercent'] }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex mb-3 align-items-center">
+                <div class="h5 text-white me-3 mb-0">
+                    WEAK
+                </div>
+                <div class="flex-grow-1">
+                    <div class="progress" style="height: 20px;" >
+                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment two"
+                             style="width: {{ $teamsData['radiant']['weakPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['radiant']['weakPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['radiant']['weakPercent'] }}</div>
+                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one"
+                             style="width: {{ $teamsData['dire']['weakPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['dire']['weakPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['dire']['weakPercent'] }}</div>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #F8F9FA">
+            <div class="d-flex mb-3 align-items-center mb-5">
+                <div class="h5 text-white me-3 mb-0">
+                    SYNERGY
+                </div>
+                <div class="flex-grow-1">
+                    <div class="progress" style="height: 20px;" >
+                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment one"
+                             style="width: {{ $teamsData['dire']['synergyPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['dire']['synergyPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['dire']['synergyPercent'] }}</div>
+                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two"
+                             style="width: {{ $teamsData['radiant']['synergyPercent'] }}%"
+                             aria-valuenow="{{ $teamsData['radiant']['synergyPercent'] }}" aria-valuemin="0"
+                             aria-valuemax="100">{{ $teamsData['radiant']['synergyPercent'] }}</div>
+
                     </div>
                 </div>
             </div>

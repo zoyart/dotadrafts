@@ -51,8 +51,6 @@ class ParseController extends Controller
 
     public function matchups()
     {
-
-
         foreach (self::$heroes as $id => $hero) {
             $request = curl_init("https://www.dotabuff.com/heroes/{$hero}/counters");
             $headers = [
@@ -77,12 +75,13 @@ class ParseController extends Controller
                 }
 
                 // Добавление значений в БД
-                Matchup::create([
-                    'hero_id' => $id,
-                    'hero' => $correctHeroName,
-                    'matchup_hero' => $heroName,
-                    'vs' => $matchupPercent,
-                ]);
+//                Matchup::create([
+//                    'hero_id' => $id,
+//                    'hero' => $correctHeroName,
+//                    'matchup_hero' => $heroName,
+//                    'vs' => $matchupPercent,
+//                ]);
+                Matchup::where('hero', $correctHeroName)->where('matchup_hero', $heroName)->update(['vs' => $matchupPercent]);
             }
             // Чтобы не разозлить сайт)
             sleep(5);
