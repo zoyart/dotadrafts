@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Classes;
 
 use App\Models\Matchup;
-use App\Models\Tempo;
 
 class Team
 {
@@ -45,19 +44,16 @@ class Team
 
             foreach ($this->radiantHeroes as $radiantHero) {
                 $matchup = Matchup::where('hero', $direHero)->where('matchup_hero', $radiantHero)->first();
+                $vs = round($matchup['vs'], 1);
 
-                $this->teamsData['dire']['heroes'][$direHero]['points'] -= $matchup['vs'];
-                $this->teamsData['dire']['points'] -= $matchup['vs'];
+                $this->teamsData['dire']['heroes'][$direHero]['points'] += $vs;
+                $this->teamsData['dire']['points'] += $vs;
 
-                if ($matchup['vs'] < 0) {
-                    $this->teamsData['dire']['heroes'][$direHero]['powerPoints'] -= $matchup['vs'];
-                }
-                if ($matchup['vs'] > 0) {
-                    $this->teamsData['dire']['weak'] += $matchup['vs'];
-                    $this->teamsData['dire']['heroes'][$direHero]['weakPoints'] += $matchup['vs'];
-                }
-                if ($matchup['vs'] > 1.5) {
-                    $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][$radiantHero] = $matchup['vs'];
+                if ($vs > 0) $this->teamsData['dire']['heroes'][$direHero]['powerPoints'] += $vs;
+                if ($vs < -1.5) $this->teamsData['dire']['heroes'][$direHero]['counterPicks'][$radiantHero] = $vs;
+                if ($vs < 0) {
+                    $this->teamsData['dire']['weak'] += $vs;
+                    $this->teamsData['dire']['heroes'][$direHero]['weakPoints'] += $vs;
                 }
             }
         }
@@ -74,141 +70,59 @@ class Team
 
             foreach ($this->direHeroes as $direHero) {
                 $matchup = Matchup::where('hero', $radiantHero)->where('matchup_hero', $direHero)->first();
+                $vs = round($matchup['vs'], 1);
 
-                $this->teamsData['radiant']['heroes'][$radiantHero]['points'] -= $matchup['vs'];
-                $this->teamsData['radiant']['points'] -= $matchup['vs'];
+                $this->teamsData['radiant']['heroes'][$radiantHero]['points'] += $vs;
+                $this->teamsData['radiant']['points'] += $vs;
 
-                if ($matchup['vs'] < 0) {
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['powerPoints'] -= $matchup['vs'];
-                }
-                if ($matchup['vs'] > 0) {
-                    $this->teamsData['radiant']['weak'] += $matchup['vs'];
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['weakPoints'] += $matchup['vs'];
-                }
-                if ($matchup['vs'] > 1.5) {
-                    $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][$direHero] = $matchup['vs'];
+                if ($vs > 0) $this->teamsData['radiant']['heroes'][$radiantHero]['powerPoints'] += $vs;
+                if ($vs < -1.5) $this->teamsData['radiant']['heroes'][$radiantHero]['counterPicks'][$direHero] = $vs;
+                if ($vs < 0) {
+                    $this->teamsData['radiant']['weak'] += $vs;
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['weakPoints'] += $vs;
                 }
             }
         }
-
-        // Перевод значений в проценты
-        $sumWeak = $this->teamsData['radiant']['weak'] + $this->teamsData['dire']['weak'];
-        $this->teamsData['radiant']['weakPercent'] = round($this->teamsData['radiant']['weak'] / $sumWeak * 100, 0);
-        $this->teamsData['dire']['weakPercent'] = round($this->teamsData['dire']['weak'] / $sumWeak * 100, 0);
-
-        $positiveNumRadiant = $this->teamsData['radiant']['points'] + (2 * (abs($this->teamsData['dire']['points']) + abs($this->teamsData['radiant']['points'])));
-        $positiveNumDire = $this->teamsData['dire']['points'] + (2 * abs($this->teamsData['radiant']['points']) + (2 * abs($this->teamsData['dire']['points'])));
-        $sumPoints = $positiveNumRadiant + $positiveNumDire;
-        $this->teamsData['radiant']['pointsPercent'] = round($positiveNumRadiant / $sumPoints * 100, 0);
-        $this->teamsData['dire']['pointsPercent'] = round($positiveNumDire / $sumPoints * 100, 0);
-    }
-
-    public function heroTempo()
-    {
-        /*=========================
-        Анализ темпа команды тьмы
-        =========================*/
-        $this->teamsData['dire']['tempo'] = ['totalGradient' => 0];
-
-        foreach ($this->direHeroes as $direHero) {
-            $heroTempo = Tempo::where('hero_name', $direHero)->first();
-
-            $earlyWinrateDire[] = $heroTempo->early_winrate;
-            $middleWinrateDire[] = $heroTempo->middle_winrate;
-            $lateWinrateDire[] = $heroTempo->late_winrate;
-
-            $this->teamsData['dire']['tempo']['totalGradient'] += $heroTempo->gradient;
-            $this->teamsData['dire']['heroes'][$direHero]['tempo'] = [
-                'heroName' => $heroTempo->hero_name,
-                'matches' => $heroTempo->matches,
-                'earlyWinrate' => $heroTempo->early_winrate,
-                'middleWinrate' => $heroTempo->middle_winrate,
-                'lateWinrate' => $heroTempo->late_winrate,
-                'gradient' => $heroTempo->gradient,
-            ];
-        }
-
-        $this->teamsData['dire']['tempo']['totalEarlyWinrate'] = array_sum($earlyWinrateDire) / count($earlyWinrateDire);
-        $this->teamsData['dire']['tempo']['totalMiddleWinrate'] = array_sum($middleWinrateDire) / count($middleWinrateDire);
-        $this->teamsData['dire']['tempo']['totalLateWinrate'] = array_sum($lateWinrateDire) / count($lateWinrateDire);
-
-
-        /*=========================
-        Анализ темпа команды света
-        =========================*/
-        $this->teamsData['radiant']['tempo'] = ['totalGradient' => 0];
-
-        foreach ($this->radiantHeroes as $radiantHero) {
-            $heroTempo = Tempo::where('hero_name', $radiantHero)->first();
-
-            $earlyWinrateRadiant[] = $heroTempo->early_winrate;
-            $middleWinrateRadiant[] = $heroTempo->middle_winrate;
-            $lateWinrateRadiant[] = $heroTempo->late_winrate;
-
-            $this->teamsData['radiant']['tempo']['totalGradient'] += $heroTempo->gradient;
-            $this->teamsData['radiant']['heroes'][$radiantHero]['tempo'] = [
-                'heroName' => $heroTempo->hero_name,
-                'matches' => $heroTempo->matches,
-                'earlyWinrate' => $heroTempo->early_winrate,
-                'middleWinrate' => $heroTempo->middle_winrate,
-                'lateWinrate' => $heroTempo->late_winrate,
-                'gradient' => $heroTempo->gradient,
-            ];
-        }
-
-        $this->teamsData['radiant']['tempo']['totalEarlyWinrate'] = array_sum($earlyWinrateRadiant) / count($earlyWinrateRadiant);
-        $this->teamsData['radiant']['tempo']['totalMiddleWinrate'] = array_sum($middleWinrateRadiant) / count($middleWinrateRadiant);
-        $this->teamsData['radiant']['tempo']['totalLateWinrate'] = array_sum($lateWinrateRadiant) / count($lateWinrateRadiant);
     }
 
     public function heroSynergy()
     {
-        /*=========================
-        Анализ синергии команды тьмы
-        =========================*/
+        // Анализ синергии команды тьмы
         foreach ($this->direHeroes as $direHero) {
             $this->teamsData['dire']['heroes'][$direHero]['heroSynergy'] = 0;
 
             foreach ($this->direHeroes as $direHeroSynergy) {
                 if (!($direHero === $direHeroSynergy)) {
                     $heroSynergy = Matchup::where('hero', $direHero)->where('matchup_hero', $direHeroSynergy)->first();
-                    $heroSynergyRounded = round($heroSynergy->with / 4, 2);
+                    $heroSynergyRounded = round($heroSynergy->with, 1);
                     $this->teamsData['dire']['heroes'][$direHero]['synergy'][$direHeroSynergy] = $heroSynergyRounded;
                     $this->teamsData['dire']['heroes'][$direHero]['heroSynergy'] += $heroSynergyRounded;
 
-//                    $this->teamsData['dire']['heroes'][$direHero]['points'] += $heroSynergyRounded;
-//                    $this->teamsData['dire']['points'] += $heroSynergyRounded;
+                    $this->teamsData['dire']['heroes'][$direHero]['points'] += $heroSynergyRounded;
+                    $this->teamsData['dire']['points'] += $heroSynergyRounded;
                     $this->teamsData['dire']['synergy'] += $heroSynergyRounded;
                 }
             }
         }
 
-        /*=========================
-        Анализ синергии команды света
-        =========================*/
+
+        // Анализ синергии команды света
         foreach ($this->radiantHeroes as $radiantHero) {
             $this->teamsData['radiant']['heroes'][$radiantHero]['heroSynergy'] = 0;
 
             foreach ($this->radiantHeroes as $radiantHeroSynergy) {
                 if (!($radiantHero === $radiantHeroSynergy)) {
                     $heroSynergy = Matchup::where('hero', $radiantHero)->where('matchup_hero', $radiantHeroSynergy)->first();
-                    $heroSynergyRounded = round($heroSynergy->with / 4, 2);
+                    $heroSynergyRounded = round($heroSynergy->with, 1);
 
                     $this->teamsData['radiant']['heroes'][$radiantHero]['synergy'][$radiantHeroSynergy] = $heroSynergyRounded;
                     $this->teamsData['radiant']['heroes'][$radiantHero]['heroSynergy'] += $heroSynergyRounded;
 
-//                    $this->teamsData['radiant']['heroes'][$radiantHero]['points'] += $heroSynergyRounded;
-//                    $this->teamsData['radiant']['points'] += $heroSynergyRounded;
+                    $this->teamsData['radiant']['heroes'][$radiantHero]['points'] += $heroSynergyRounded;
+                    $this->teamsData['radiant']['points'] += $heroSynergyRounded;
                     $this->teamsData['radiant']['synergy'] += $heroSynergyRounded;
                 }
             }
         }
-
-        // Перевод значений в проценты
-        $positiveNumRadiant = $this->teamsData['radiant']['synergy'] + (2 * (abs($this->teamsData['dire']['synergy']) + abs($this->teamsData['radiant']['synergy'])));
-        $positiveNumDire = $this->teamsData['dire']['synergy'] + (2 * (abs($this->teamsData['radiant']['synergy']) + abs($this->teamsData['dire']['synergy'])));
-        $sumSynergy = $positiveNumRadiant + $positiveNumDire;
-        $this->teamsData['radiant']['synergyPercent'] = round($positiveNumRadiant / $sumSynergy * 100, 0);
-        $this->teamsData['dire']['synergyPercent'] = round($positiveNumDire / $sumSynergy * 100, 0);
     }
 }

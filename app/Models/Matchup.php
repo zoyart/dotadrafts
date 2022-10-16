@@ -13,6 +13,8 @@ class Matchup extends Model
     protected $fillable = [
         'hero_id',
         'hero',
+        'matchup_hero_id',
+        'match_count',
         'matchup_hero',
         'vs',
         'with',

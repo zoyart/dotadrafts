@@ -37,12 +37,12 @@
                                         @endif
                                     </div>
                                     <div>
-                                        @if($direHero['weakPoints'] <= 0)
-                                            WEAK <span class="text-success"> {{ $direHero['weakPoints'] }} </span>
-                                        @elseif($direHero['weakPoints'] > 0 and $direHero['weakPoints'] < 3)
+                                        @if($direHero['weakPoints'] < 0)
+                                            WEAK <span class="text-danger"> {{ $direHero['weakPoints'] }} </span>
+                                        @elseif($direHero['weakPoints'] >= 0 and $direHero['weakPoints'] <= 3)
                                             WEAK <span class="text-warning"> {{ $direHero['weakPoints'] }} </span>
                                         @elseif($direHero['weakPoints'] > 3)
-                                            WEAK <span class="text-danger"> {{ $direHero['weakPoints'] }} </span>
+                                            WEAK <span class="text-success"> {{ $direHero['weakPoints'] }} </span>
                                         @endif
                                     </div>
                                     <div>
@@ -125,12 +125,12 @@
                                         @endif
                                     </div>
                                     <div>
-                                        @if($radiantHero['weakPoints'] <= 1)
-                                            WEAK <span class="text-success"> {{ $radiantHero['weakPoints'] }} </span>
-                                        @elseif($radiantHero['weakPoints'] > 1 and $radiantHero['weakPoints'] < 3)
+                                        @if($radiantHero['weakPoints'] < 0)
+                                            WEAK <span class="text-danger"> {{ $radiantHero['weakPoints'] }} </span>
+                                        @elseif($radiantHero['weakPoints'] >= 0 and $radiantHero['weakPoints'] <= 3)
                                             WEAK <span class="text-warning"> {{ $radiantHero['weakPoints'] }} </span>
                                         @elseif($radiantHero['weakPoints'] > 3)
-                                            WEAK <span class="text-danger"> {{ $radiantHero['weakPoints'] }} </span>
+                                            WEAK <span class="text-success"> {{ $radiantHero['weakPoints'] }} </span>
                                         @endif
                                     </div>
                                     <div>
@@ -218,59 +218,6 @@
                         <div>
                             SYNERGY {{ $teamsData['radiant']['synergy'] }}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex mb-3 align-items-center">
-                <div class="h5 text-white me-3 mb-0">
-                    TOTAL
-                </div>
-                <div class="flex-grow-1">
-                    <div class="progress" style="height: 20px;" >
-                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment one"
-                             style="width: {{ $teamsData['dire']['pointsPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['dire']['pointsPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['dire']['pointsPercent'] }}</div>
-                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two"
-                             style="width: {{ $teamsData['radiant']['pointsPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['radiant']['pointsPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['radiant']['pointsPercent'] }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex mb-3 align-items-center">
-                <div class="h5 text-white me-3 mb-0">
-                    WEAK
-                </div>
-                <div class="flex-grow-1">
-                    <div class="progress" style="height: 20px;" >
-                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment two"
-                             style="width: {{ $teamsData['radiant']['weakPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['radiant']['weakPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['radiant']['weakPercent'] }}</div>
-                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one"
-                             style="width: {{ $teamsData['dire']['weakPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['dire']['weakPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['dire']['weakPercent'] }}</div>
-                    </div>
-                </div>
-            </div>
-            <hr style="border-color: #F8F9FA">
-            <div class="d-flex mb-3 align-items-center mb-5">
-                <div class="h5 text-white me-3 mb-0">
-                    SYNERGY
-                </div>
-                <div class="flex-grow-1">
-                    <div class="progress" style="height: 20px;" >
-                        <div class="progress-bar bg-danger" role="progressbar" aria-label="Segment one"
-                             style="width: {{ $teamsData['dire']['synergyPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['dire']['synergyPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['dire']['synergyPercent'] }}</div>
-                        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two"
-                             style="width: {{ $teamsData['radiant']['synergyPercent'] }}%"
-                             aria-valuenow="{{ $teamsData['radiant']['synergyPercent'] }}" aria-valuemin="0"
-                             aria-valuemax="100">{{ $teamsData['radiant']['synergyPercent'] }}</div>
-
                     </div>
                 </div>
             </div>

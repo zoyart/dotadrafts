@@ -9,4 +9,4 @@ Route::get('/analytics', [AnalyticsController::class, 'analytics'])->name('analy
 
 Route::get('/parse-matchups', [ParseController::class, 'matchups'])->name('parse.matchups');
 Route::get('/parse-tempo', [ParseController::class, 'tempo'])->name('parse.tempo');
-Route::get('/parse-synergy', [ParseController::class, 'stratz']);
+Route::get('/parse-stratz', [ParseController::class, 'stratz']);
