@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Classes;
 
 use App\Models\Dotabuff;
+use App\Models\Hero;
 use App\Models\Matchup;
 
 class Team
@@ -30,13 +31,17 @@ class Team
             'heroes' => [],
             'weak' => 0,
             'points' => 0,
-            'synergy' => 0
+            'synergy' => 0,
+            'towerDamage' => 0,
+            'heroDamage' => 0,
         ],
         'radiant' => [
             'heroes' => [],
             'weak' => 0,
             'points' => 0,
-            'synergy' => 0
+            'synergy' => 0,
+            'towerDamage' => 0,
+            'heroDamage' => 0,
         ]
     ];
 
@@ -155,7 +160,12 @@ class Team
                 'weakPoints' => 0,
                 'counterPicks' => [],
                 'role' => mb_strtoupper(str_replace('_','-', $featureDireHero['role'])),
+                'farm' => Hero::where('hero_name', $direHero)->first()->farm,
+                'heroDamage' => Hero::where('hero_name', $direHero)->first()->hero_damage,
+                'towerDamage' => Hero::where('hero_name', $direHero)->first()->tower_damage,
             ];
+            $this->teamsDataDotabuff['dire']['towerDamage'] += Hero::where('hero_name', $direHero)->first()->tower_damage;
+            $this->teamsDataDotabuff['dire']['heroDamage'] += Hero::where('hero_name', $direHero)->first()->hero_damage;
 
             foreach ($this->radiantHeroes as $radiantHero => $featureRadiantHero) {
                 $matchup = Dotabuff::where('hero', $direHero)->where('matchup_hero', $radiantHero)->first();
@@ -182,7 +192,12 @@ class Team
                 'weakPoints' => 0,
                 'counterPicks' => [],
                 'role' => mb_strtoupper(str_replace('_','-', $featureRadiantHero['role'])),
+                'farm' => Hero::where('hero_name', $radiantHero)->first()->farm,
+                'heroDamage' => Hero::where('hero_name', $radiantHero)->first()->hero_damage,
+                'towerDamage' => Hero::where('hero_name', $radiantHero)->first()->tower_damage,
             ];
+            $this->teamsDataDotabuff['radiant']['towerDamage'] += Hero::where('hero_name', $radiantHero)->first()->tower_damage;
+            $this->teamsDataDotabuff['radiant']['heroDamage'] += Hero::where('hero_name', $radiantHero)->first()->hero_damage;
 
             foreach ($this->direHeroes as $direHero => $featureDireHero) {
                 $matchup = Dotabuff::where('hero', $radiantHero)->where('matchup_hero', $direHero)->first();

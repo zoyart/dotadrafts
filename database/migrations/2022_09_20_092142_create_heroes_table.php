@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('heroes', function (Blueprint $table) {
             $table->id();
-            $table->string('hero_name');
+            $table->string('hero_name')->nullable();
+            $table->integer('farm')->nullable();
+            $table->integer('tower_damage')->nullable();
+            $table->integer('hero_damage')->nullable();
         });
     }
 

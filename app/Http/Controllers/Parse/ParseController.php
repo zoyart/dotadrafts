@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parse;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dotabuff;
+use App\Models\Hero;
 use App\Models\Matchup;
 
 include 'simple_html_dom.php';
@@ -88,6 +89,55 @@ class ParseController extends Controller
         }
 
         curl_close($request);
+    }
+
+    public function dotabuffHeroDamage()
+    {
+        $request = curl_init("https://ru.dotabuff.com/heroes/damage");
+        $headers = [
+            'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+        ];
+
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+
+        $html = str_get_html(curl_exec($request));
+        $table = $html->find('div.content-inner', 0)->find('table', 0)->find('tbody', 0)->find('tr');
+
+        foreach ($table as $item) {
+            $hero = mb_strtolower(str_replace('&#39;', '', $item->find('td', 1)->find('a', 0)->plaintext));
+            $heroDamage = round(str_replace(',','', $item->find('td', 2)->plaintext), 0);
+            $towerDamage = round(str_replace(',','', $item->find('td', 3)->plaintext), 0);
+
+            Hero::create([
+                'hero_name' => $hero,
+                'hero_damage' => $heroDamage,
+                'tower_damage' => $towerDamage,
+            ]);
+        }
+    }
+
+    public function dotabuffHeroFarm()
+    {
+        $request = curl_init("https://ru.dotabuff.com/heroes/economy");
+        $headers = [
+            'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+        ];
+
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+
+        $html = str_get_html(curl_exec($request));
+        $table = $html->find('div.content-inner', 0)->find('table', 0)->find('tbody', 0)->find('tr');
+
+        foreach ($table as $item) {
+            $hero = mb_strtolower(str_replace('&#39;', '', $item->find('td', 1)->find('a', 0)->plaintext));
+            $farm = round(str_replace(',','', $item->find('td', 2)->plaintext), 0);
+
+            Hero::where('hero_name', $hero)->update([
+                'farm' => $farm,
+            ]);
+        }
     }
 
     public function stratz()

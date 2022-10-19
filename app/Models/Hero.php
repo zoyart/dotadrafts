@@ -12,5 +12,8 @@ class Hero extends Model
     public $timestamps = false;
     protected $fillable = [
         'hero_name',
+        'tower_damage',
+        'hero_damage',
+        'farm',
     ];
 }
