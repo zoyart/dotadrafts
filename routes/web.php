@@ -7,6 +7,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AnalyticsController::class, 'index'])->name('index');
 Route::get('/analytics', [AnalyticsController::class, 'analytics'])->name('analytics');
 
-Route::get('/parse-matchups', [ParseController::class, 'matchups'])->name('parse.matchups');
-Route::get('/parse-tempo', [ParseController::class, 'tempo'])->name('parse.tempo');
+Route::get('/parse-dotabuff', [ParseController::class, 'dotabuff'])->name('parse.dotabuff');
 Route::get('/parse-stratz', [ParseController::class, 'stratz']);

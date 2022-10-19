@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Parse;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dotabuff;
 use App\Models\Matchup;
-use App\Models\Tempo;
 
 include 'simple_html_dom.php';
 
@@ -49,9 +49,10 @@ class ParseController extends Controller
         42 => 'wraith king',
         22 => 'zeus'];
 
-    public function matchups()
+    public function dotabuff()
     {
         foreach (self::$heroes as $id => $hero) {
+            $hero = str_replace(" ", "-", $hero);
             $request = curl_init("https://www.dotabuff.com/heroes/{$hero}/counters");
             $headers = [
                 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
@@ -65,23 +66,22 @@ class ParseController extends Controller
 
             // Перебор таблицы с героями
             foreach ($table as $item) {
-                $heroName = mb_strtolower($item->find('td', 1)->find('a', 0)->plaintext);
-                $matchupPercent = str_replace("%", "", $item->find('td', 2)->plaintext);
+                $matchupHero = mb_strtolower($item->find('td', 1)->find('a', 0)->plaintext);
+                $matchupPercent = -(str_replace("%", "", $item->find('td', 2)->plaintext));
 
-                if ($hero == 'anti-mage') {
-                    $correctHeroName = $hero;
-                } else {
-                    $correctHeroName = str_replace("-", " ", $hero);
+                if ($matchupHero === 'nature&#39;s prophet') {
+                    $matchupHero = str_replace("&#39;", "", $matchupHero);
                 }
 
                 // Добавление значений в БД
-//                Matchup::create([
-//                    'hero_id' => $id,
-//                    'hero' => $correctHeroName,
-//                    'matchup_hero' => $heroName,
-//                    'vs' => $matchupPercent,
-//                ]);
-                Matchup::where('hero', $correctHeroName)->where('matchup_hero', $heroName)->update(['vs' => $matchupPercent]);
+                if ($hero !== 'anti-mage') $hero = str_replace("-", " ", $hero);
+                Dotabuff::create([
+                    'hero_id' => $id,
+                    'hero' => $hero,
+                    'matchup_hero' => $matchupHero,
+                    'vs' => $matchupPercent,
+                ]);
+//                Matchup::where('hero', $hero)->where('matchup_hero', $matchupHero)->update(['vs' => $matchupPercent]);
             }
             // Чтобы не разозлить сайт)
             sleep(5);
@@ -94,7 +94,7 @@ class ParseController extends Controller
     {
 
         foreach (self::$heroes as $heroId => $hero) {
-            $request = curl_init("https://api.stratz.com/graphql?query=query%7B%0A%09heroStats%7B%0A%20%20%20%20heroVsHeroMatchup(heroId%3A${heroId}%2C%20week%3A1665304909%2C%20matchLimit%3A20)%20%7B%0A%20%20%20%20%09advantage%20%7B%0A%20%20%20%20%09%20%20heroId%0A%20%20%20%20%09%20%20with%20%7B%0A%20%20%20%20%09%20%20%20%20heroId1%0A%20%20%20%20%09%20%20%20%20heroId2%0A%20%20%20%20%09%20%20%20%20matchCount%0A%20%20%20%20%09%20%20%20%20synergy%0A%20%20%20%20%09%20%20%7D%0A%20%20%20%20%20%20%20%20vs%20%7B%0A%20%20%20%20%20%20%20%20%20%20heroId1%0A%20%20%20%20%09%20%20%20%20heroId2%0A%20%20%20%20%09%20%20%20%20matchCount%0A%20%20%20%20%09%20%20%20%20synergy%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%09%7D%0A%20%20%20%20%7D%0A%20%20%7D%20%0A%7D");
+            $request = curl_init("https://api.stratz.com/graphql?query=query%7B%0A%09heroStats%7B%0A%20%20%20%20heroVsHeroMatchup(heroId%3A${heroId}%2C%20week%3A1663688170%2C%20matchLimit%3A20)%20%7B%0A%20%20%20%20%09advantage%20%7B%0A%20%20%20%20%09%20%20heroId%0A%20%20%20%20%09%20%20with%20%7B%0A%20%20%20%20%09%20%20%20%20heroId1%0A%20%20%20%20%09%20%20%20%20heroId2%0A%20%20%20%20%09%20%20%20%20matchCount%0A%20%20%20%20%09%20%20%20%20synergy%0A%20%20%20%20%09%20%20%7D%0A%20%20%20%20%20%20%20%20vs%20%7B%0A%20%20%20%20%20%20%20%20%20%20heroId1%0A%20%20%20%20%09%20%20%20%20heroId2%0A%20%20%20%20%09%20%20%20%20matchCount%0A%20%20%20%20%09%20%20%20%20synergy%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%09%7D%0A%20%20%20%20%7D%0A%20%20%7D%20%0A%7D");
 
             $headers = [
                 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJodHRwczovL3N0ZWFtY29tbXVuaXR5LmNvbS9vcGVuaWQvaWQvNzY1NjExOTgxNDY1MjM4MjQiLCJ1bmlxdWVfbmFtZSI6IikiLCJTdWJqZWN0IjoiZjM1MDRmYTYtMTkyZC00MTMzLWI5ZWMtNDI5NjAzOTdkMmQ2IiwiU3RlYW1JZCI6IjE4NjI1ODA5NiIsIm5iZiI6MTY2NDQzMzU3OSwiZXhwIjoxNjk1OTY5NTc5LCJpYXQiOjE2NjQ0MzM1NzksImlzcyI6Imh0dHBzOi8vYXBpLnN0cmF0ei5jb20ifQ.twAZJyrIW-0MJpFNm85Vzy32G9oEFFvu0uHl_nAZNRE'

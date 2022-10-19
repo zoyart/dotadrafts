@@ -18,10 +18,12 @@ class AnalyticsController extends Controller
 
     public function analytics(Request $request)
     {
+//        dd($request);
         $team = new Team($request->dire, $request->radiant);
         $team->heroPower();
         $team->heroSynergy();
+        $team->heroSynergyDotabuff();
 
-        return view('analytics.statistics', ['teamsData' => $team->teamsData]);
+        return view('analytics.statistics', ['teamsData' => $team->teamsData, 'teamsDataDotabuff' => $team->teamsDataDotabuff]);
     }
 }
