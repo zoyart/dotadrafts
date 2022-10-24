@@ -2,28 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Hero;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Classes\Team;
-
+use App\Http\Controllers\Classes\Hero;
 
 class AnalyticsController extends Controller
 {
     public function index()
     {
-        $heroes = Hero::all();
+        $heroes = \App\Models\Hero::all();
 
         return view('analytics.index', ['heroes' => $heroes]);
     }
 
     public function analytics(Request $request)
     {
-//        dd($request);
-        $team = new Team($request->dire, $request->radiant);
-        $team->heroPower();
-        $team->heroSynergy();
-        $team->heroSynergyDotabuff();
+        $direHeroes = [];
+        $radiantHeroes = [];
 
-        return view('analytics.statistics', ['teamsData' => $team->teamsData, 'teamsDataDotabuff' => $team->teamsDataDotabuff]);
+        foreach ($request->dire as $hero => $feature) {
+            $direHeroes[] = new Hero($hero);
+        }
+
+        foreach ($request->radiant as $hero => $feature) {
+            $radiantHeroes[] = new Hero($hero);
+        }
+
+        $direTeam = new Team('dire', $direHeroes);
+        $radiantTeam = new Team('radiant', $radiantHeroes);
+
+        $direTeam->matchupStatistics($radiantHeroes);
+        $radiantTeam->matchupStatistics($direHeroes);
+
+        return view('analytics.statistics', ['direTeam' => $direTeam, 'radiantTeam' => $radiantTeam]);
     }
 }
