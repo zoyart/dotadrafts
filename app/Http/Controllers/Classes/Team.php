@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Classes;
 
 use App\Models\Dotabuff;
-use App\Http\Controllers\Classes\Hero;
 
 class Team
 {
@@ -13,17 +12,21 @@ class Team
     public $power = 0;
     public $towerDamage = 0;
     public $heroDamage = 0;
-    public $heroes;
-    public $enemyHeroes;
+    public $heroes = [];
 
     public function __construct($side, $heroes)
     {
         $this->side = $side;
-        $this->heroes = $heroes;
+
+        foreach ($heroes as $hero => $feature) {
+            $this->heroes[] = new Hero($hero);
+        }
     }
 
     public function matchupStatistics ($enemyHeroes) {
-        $this->enemyHeroes = $enemyHeroes;
+        foreach ($enemyHeroes as $enemyHero => $feature) {
+            $enemyHeroesArr[] = new Hero($enemyHero);
+        }
 
         foreach ($this->heroes as $hero) {
             $hero->farm = \App\Models\Hero::where('hero_name', $hero->name)->first()->farm;
@@ -33,7 +36,7 @@ class Team
             $this->towerDamage += \App\Models\Hero::where('hero_name', $hero->name)->first()->tower_damage;
             $this->heroDamage += \App\Models\Hero::where('hero_name', $hero->name)->first()->hero_damage;
 
-            foreach ($this->enemyHeroes as $enemyHero) {
+            foreach ($enemyHeroesArr as $enemyHero) {
                 $matchup = Dotabuff::where('hero', $hero->name)->where('matchup_hero', $enemyHero->name)->first();
                 $vs = round($matchup['vs'], 1);
 
